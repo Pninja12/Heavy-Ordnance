@@ -11,23 +11,22 @@ class Canon():
         self.y = y
         
 
-    def draw(self, mouse_y):
-        self.mouse_y = mouse_y
+    def draw(self, mouse_x):
+        self.mouse_x = mouse_x
 
         image = pygame.image.load("CANON.png").convert()
-        image = pygame.transform.scale(image, (50, 100))
+        image = pygame.transform.scale(image, (50, 50))
 
-        if self.mouse_y <= 120:    
+        if self.mouse_x <= 320:    
             self.angle = 0
-        elif self.mouse_y >= 300:
+        elif self.mouse_x >= 500:
             self.angle = 90
         else:
-            self.angle = (self.mouse_y - 120) / 2
-            print(-((self.mouse_y - 120) / 2))
+            self.angle = (self.mouse_x - 320) / 2
+            print(((self.mouse_x - 320) / 2))
 
 
-        rot_image = pygame.transform.rotate(image, -(self.angle))
-        rot_image.set_colorkey((39,190,20))  
-        self.screen.blit(rot_image,(self.x,self.y))
+        image.set_colorkey((39,190,20))  
+        self.screen.blit(pygame.transform.rotate(image, -(self.angle)),(self.x,self.y))
         
         return(self.angle)

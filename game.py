@@ -40,7 +40,9 @@ boats_on_game = []
 speed = 0.5
 barco_destruido = 0
 multiplier = 0
-
+image_hold = pygame.image.load("Canon_holder.png").convert()
+image_hold = pygame.transform.scale(image_hold, (100, 100))
+image_hold.set_colorkey((39,190,20))  
 
 clock = pygame.time.Clock()
 mouse_press = pygame.mouse.get_pressed()
@@ -79,7 +81,8 @@ while True:
     mouse_press = pygame.mouse.get_pressed()
 
 
-    jogador = Canon(screen, 10, 138)
+    jogador = Canon(screen, 12, 150)
+    
 
     #Menu do jogo
     if jogo == 1:
@@ -100,7 +103,7 @@ while True:
     #Jogo
     if jogo == 2 and life > 0:
 
-        angle = jogador.draw(mouse_xy[1])
+        angle = jogador.draw(mouse_xy[0])
 
         for i in range(life):
             screen.blit(life_image , ((900 + i * 30), 30))
@@ -145,6 +148,8 @@ while True:
 
         Boat.spawn_da_boat(screen,boats_on_game,speed)
 
+
+        screen.blit(image_hold,(-10,90))
     else: 
         
         
@@ -187,8 +192,8 @@ https://coderslegacy.com/python/pygame-mouse-click/
 
 #to do
 """
-girar o canhão pelo centro
 verificar velocidade
-trocar o x pelo y da rotação
 clicar para disparar
+adicionar balas
+gravidade nas balas
 """
