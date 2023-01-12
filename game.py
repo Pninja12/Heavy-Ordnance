@@ -4,12 +4,16 @@ import numpy
 import time
 import random
 
+
 #Import dos ficheiros
 from Player import Canon
+from Boats import Boat
+
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 380)) 
 pygame.display.set_caption("Heavy Ordnance") 
+
 
 #colors
 black = (0,0,0)
@@ -18,6 +22,7 @@ orange = (250, 100, 0)
 red = (240,20,20)
 green = (20,240,20)
 blue = (20,20,240)
+
 
 current_time = []
 jogo = 1
@@ -34,10 +39,18 @@ life = 0
 life_image = pygame.image.load("Heart.png").convert()
 life_image = pygame.transform.scale(life_image, (32, 32))
 life_image.set_colorkey((39,190,20))
+boats_on_game = []
+next_boat = 0
+lock = 0
+speed = 1
+barco_destruido = 0
+multiplier = 0
+
 
 clock = pygame.time.Clock()
 mouse_press = pygame.mouse.get_pressed()
 keys=pygame.key.get_pressed()
+
 
 while True:
     screen.fill((159,237,223))
@@ -56,6 +69,7 @@ while True:
             life = 3
             segundos = 0
             score = 0
+            soma_segundos = 0
         if jogo == 1 and mouse_press[0] and ((mouse_xy[0] >= 250 and mouse_xy[0] <= 325) and (mouse_xy[1] >= 150 and mouse_xy[1] <= 185)):
             pygame.quit() 
             sys.exit()
@@ -107,8 +121,22 @@ while True:
             soma_segundos = 0
             score += 1
 
+        if len(boats_on_game) < 4 and lock == 0:
+            next_boat += random.randint(1,10)
+            lock = 1
 
+        if next_boat == segundos:
+            next_boat = segundos
+            boats_on_game = Boat(boats_on_game).lista()
+            lock = 0
 
+        if barco_destruido == 10:
+            barco_destruido = 0
+            multiplier += 1
+            speed += 1
+
+        Boat.spawn_da_boat(screen,boats_on_game,speed)
+        
 
 
     #retirar no fim
@@ -132,4 +160,14 @@ https://coderslegacy.com/python/display-fps-pygame/
 https://www.geeksforgeeks.org/how-to-draw-rectangle-in-pygame/
 https://coderslegacy.com/python/pygame-mouse-click/
 
+"""
+
+
+
+#to do
+"""
+Barcos na posição certa
+diferentes tamanhos de barcos
+verificar velocidade
+dar dano ao jogador e desaparecer
 """
