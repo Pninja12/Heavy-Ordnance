@@ -32,17 +32,12 @@ scorefont = pygame.font.Font('arial.ttf',25)
 name = fontname.render('Heavy Ordnance' , True , black)
 play = myfont.render('Play' , True , black)
 quit = myfont.render('Quit' , True , black)
-segundos = 0
 soma_segundos = 0
-score = 0
-life = 0
 life_image = pygame.image.load("Heart.png").convert()
 life_image = pygame.transform.scale(life_image, (32, 32))
 life_image.set_colorkey((39,190,20))
 boats_on_game = []
-next_boat = 0
-lock = 0
-speed = 1
+speed = 0.5
 barco_destruido = 0
 multiplier = 0
 
@@ -70,6 +65,8 @@ while True:
             segundos = 0
             score = 0
             soma_segundos = 0
+            next_boat = 0
+            lock = 0
         if jogo == 1 and mouse_press[0] and ((mouse_xy[0] >= 250 and mouse_xy[0] <= 325) and (mouse_xy[1] >= 150 and mouse_xy[1] <= 185)):
             pygame.quit() 
             sys.exit()
@@ -82,7 +79,7 @@ while True:
     mouse_press = pygame.mouse.get_pressed()
 
 
-
+    jogador = Canon(screen, 10, 138)
 
     #Menu do jogo
     if jogo == 1:
@@ -101,7 +98,10 @@ while True:
 
 
     #Jogo
-    if jogo == 2:
+    if jogo == 2 and life > 0:
+
+        angle = jogador.draw(mouse_xy[1])
+
         for i in range(life):
             screen.blit(life_image , ((900 + i * 30), 30))
 
@@ -125,7 +125,7 @@ while True:
             next_boat += random.randint(1,10)
             lock = 1
 
-        if next_boat == segundos:
+        if next_boat == segundos and lock == 1:
             next_boat = segundos
             boats_on_game = Boat(boats_on_game).lista()
             lock = 0
@@ -134,8 +134,29 @@ while True:
             barco_destruido = 0
             multiplier += 1
             speed += 1
+        
+        cont_barco = 0
+        for where_boat in boats_on_game:
+            if where_boat[0] <= 200:
+                boats_on_game.pop(cont_barco)
+                life -= 1
+            cont_barco +=1
+
 
         Boat.spawn_da_boat(screen,boats_on_game,speed)
+
+    else: 
+        
+        
+        
+
+        cont_barco = 0
+        for where_boat in boats_on_game:
+            boats_on_game.pop(cont_barco)
+            cont_barco +=1
+        
+        
+        jogo = 1
         
 
 
@@ -152,7 +173,7 @@ while True:
     clock.tick(60)
     soma_segundos += 1
     
-    
+
 
 #Referências
 """
@@ -166,8 +187,8 @@ https://coderslegacy.com/python/pygame-mouse-click/
 
 #to do
 """
-Barcos na posição certa
-diferentes tamanhos de barcos
+girar o canhão pelo centro
 verificar velocidade
-dar dano ao jogador e desaparecer
+trocar o x pelo y da rotação
+clicar para disparar
 """

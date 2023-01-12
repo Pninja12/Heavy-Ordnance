@@ -5,48 +5,29 @@ import numpy
 
 class Canon():
 
-    def __init__(self, screen,angle,x,y):
+    def __init__(self, screen,x,y,):
         self.screen = screen
-        self.keys = pygame.key.get_pressed()
-        self.angle = angle
-        self.timegame = 0
         self.x = x
         self.y = y
-
-    def draw(self):
         
+
+    def draw(self, mouse_y):
+        self.mouse_y = mouse_y
+
         image = pygame.image.load("CANON.png").convert()
-        image = pygame.transform.scale(image, (50, 50))
-        image = pygame.transform.rotate(image, self.angle)
-        
-        
-        if self.keys[pygame.K_LEFT]:
-            self.angle += 0.25
-        if self.keys[pygame.K_RIGHT]:
-            self.angle -= 0.25
-        if self.keys[pygame.K_UP]:
-            if self.speed > -0.5:                                  
-                self.speed -= 0.01
-        if self.keys[pygame.K_DOWN]:
-            if self.speed < 0:                                   
-                self.speed += 0.0005
-        if not self.keys[pygame.K_UP]:                           
-            if self.speed < 0:                                   
-                self.speed += 0.0005
-        if self.speed > 0:                                       
-            self.speed = 0 
+        image = pygame.transform.scale(image, (50, 100))
 
-        if self.angle >= 360:
+        if self.mouse_y <= 120:    
             self.angle = 0
-        if self.angle <= -360:
-            self.angle = 0
+        elif self.mouse_y >= 300:
+            self.angle = 90
+        else:
+            self.angle = (self.mouse_y - 120) / 2
+            print(-((self.mouse_y - 120) / 2))
 
-        self.y -= numpy.sin(numpy.radians(self.angle * 2))      
-        self.x += numpy.cos(numpy.radians(self.angle * 2))
-        rot_image = pygame.transform.rotate(image, (self.angle + 90))
+
+        rot_image = pygame.transform.rotate(image, -(self.angle))
         rot_image.set_colorkey((39,190,20))  
+        self.screen.blit(rot_image,(self.x,self.y))
         
-        self.screen.blit(image,(100,100))
-        
-    
-        return(self.angle,self.speed, self.x, self.y)
+        return(self.angle)
