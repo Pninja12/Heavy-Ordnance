@@ -23,7 +23,6 @@ class Canon():
             self.angle = 90
         else:
             self.angle = (self.mouse_x - 320) / 2
-            print(((self.mouse_x - 320) / 2))
 
 
         image.set_colorkey((39,190,20))  

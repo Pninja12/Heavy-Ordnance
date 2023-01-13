@@ -43,6 +43,9 @@ multiplier = 0
 image_hold = pygame.image.load("Canon_holder.png").convert()
 image_hold = pygame.transform.scale(image_hold, (100, 100))
 image_hold.set_colorkey((39,190,20))  
+charging = 0
+segundos = 0
+mouse_up = 0
 
 clock = pygame.time.Clock()
 mouse_press = pygame.mouse.get_pressed()
@@ -69,10 +72,21 @@ while True:
             soma_segundos = 0
             next_boat = 0
             lock = 0
+            charging = -4
+            working = 0
+            mouse_up = 0
         if jogo == 1 and mouse_press[0] and ((mouse_xy[0] >= 250 and mouse_xy[0] <= 325) and (mouse_xy[1] >= 150 and mouse_xy[1] <= 185)):
             pygame.quit() 
             sys.exit()
-         
+        if (event.type == pygame.MOUSEBUTTONUP or charging + 3 == segundos) and segundos >= 2 :
+            mouse_up = 1
+    
+    if mouse_up == 1 or charging + 3 == segundos:
+        mouse_up = 0
+        working = 0
+        charging = -4
+        
+
 
 
     mouse_xy = []
@@ -128,7 +142,7 @@ while True:
             next_boat += random.randint(1,10)
             lock = 1
 
-        if next_boat == segundos and lock == 1:
+        if next_boat <= segundos and lock == 1:
             next_boat = segundos
             boats_on_game = Boat(boats_on_game).lista()
             lock = 0
@@ -145,6 +159,10 @@ while True:
                 life -= 1
             cont_barco +=1
 
+        if working == 0:     
+            if mouse_press[0]:
+                charging = segundos
+                working = 1
 
         Boat.spawn_da_boat(screen,boats_on_game,speed)
 
@@ -185,6 +203,8 @@ while True:
 https://coderslegacy.com/python/display-fps-pygame/
 https://www.geeksforgeeks.org/how-to-draw-rectangle-in-pygame/
 https://coderslegacy.com/python/pygame-mouse-click/
+https://www.reddit.com/r/pygame/comments/7y8yao/how_to_detect_mouse_release/
+https://stackoverflow.com/questions/26811132/pygame-keyup-keydown
 
 """
 
