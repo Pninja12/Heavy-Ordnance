@@ -6,7 +6,7 @@ import random
 
 class Boat():
    
-    def __init__(self, lista,):
+    def __init__(self, lista):
         self.y = random.randint(250,255)
         self.x = 1000
         self.barcos_lista = lista
