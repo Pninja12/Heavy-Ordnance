@@ -29,8 +29,8 @@ myfont = pygame.font.Font('arial.ttf',35)
 fontname = pygame.font.Font('arial.ttf',40)
 scorefont = pygame.font.Font('arial.ttf',25)
 name = fontname.render('Heavy Ordnance' , True , black)
-play = myfont.render('Play' , True , black)
-quit = myfont.render('Quit' , True , black)
+play = myfont.render('Jogar' , True , black)
+quit = myfont.render('Sair' , True , black)
 
 #Imagens
 life_image = pygame.image.load("Heart.png").convert()
